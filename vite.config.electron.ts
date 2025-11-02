@@ -10,7 +10,27 @@ export default defineConfig({
     electron({
       main: {
         entry: 'electron/main.ts',
+        vite: {
+          build: {
+            rollupOptions: {
+              external: ['electron']
+            }
+          }
+        }
+      },
+      preload: {
+        entry: 'electron/preload/index.ts',
+        vite: {
+          build: {
+            rollupOptions: {
+              external: ['electron']
+            }
+          }
+        }
       },
     }),
   ],
+  server: {
+    port: 5177,
+  }
 })
