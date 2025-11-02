@@ -4,6 +4,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { toast } from 'sonner';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
+import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 // Mock data for points trend chart
 const pointsTrendData = [
@@ -101,39 +103,44 @@ const Dashboard: React.FC = () => {
       {/* Top Cards Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {/* Web3 Account Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-100 dark:border-gray-700">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Web3 账户</h3>
-              <div className="flex items-center mt-2">
-                <span className="font-semibold mr-2">{userData.web3Address.substring(0, 6)}...{userData.web3Address.substring(userData.web3Address.length - 4)}</span>
-                <button 
-                  className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  onClick={copyWalletAddress}
-                  aria-label="复制地址"
-                >
-                  <i className="fa-regular fa-copy"></i>
-                </button>
+        <Card>
+          <CardHeader>
+            <div className="flex items-start justify-between">
+              <div>
+                <CardTitle className="text-sm font-medium text-gray-500 dark:text-gray-400">Web3 账户</CardTitle>
+                <div className="flex items-center mt-2">
+                  <span className="font-semibold mr-2">{userData.web3Address.substring(0, 6)}...{userData.web3Address.substring(userData.web3Address.length - 4)}</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={copyWalletAddress}
+                    aria-label="复制地址"
+                  >
+                    <i className="fa-regular fa-copy"></i>
+                  </Button>
+                </div>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-500">
+                <i className="fa-solid fa-link"></i>
               </div>
             </div>
-            <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-500">
-              <i className="fa-solid fa-link"></i>
+          </CardHeader>
+          <CardContent>
+            <div className="text-xs text-gray-400 dark:text-gray-500 mb-4">
+              完整地址: <span className="text-xs">{userData.web3Address}</span>
             </div>
-          </div>
-          <div className="text-xs text-gray-400 dark:text-gray-500 mb-4">
-            完整地址: <span className="text-xs">{userData.web3Address}</span>
-          </div>
-          <div className="grid grid-cols-2 gap-4 mt-2">
-            <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-xl">
-              <p className="text-xs text-gray-500 dark:text-gray-400">账户积分余额</p>
-              <p className="text-lg font-bold text-purple-600 dark:text-purple-400 mt-1">{userData.积分.toLocaleString()}</p>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-xl">
+                <p className="text-xs text-gray-500 dark:text-gray-400">账户积分余额</p>
+                <p className="text-lg font-bold text-purple-600 dark:text-purple-400 mt-1">{userData.积分.toLocaleString()}</p>
+              </div>
+              <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-xl">
+                <p className="text-xs text-gray-500 dark:text-gray-400">今日收益</p>
+                <p className="text-lg font-bold text-green-600 dark:text-green-400 mt-1">+{userData.todayEarnings}</p>
+              </div>
             </div>
-            <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-xl">
-              <p className="text-xs text-gray-500 dark:text-gray-400">今日收益</p>
-              <p className="text-lg font-bold text-green-600 dark:text-green-400 mt-1">+{userData.todayEarnings}</p>
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Platform Points Card */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-100 dark:border-gray-700">

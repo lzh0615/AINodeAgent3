@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '@/contexts/authContext';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 // Define task types
 type TaskStatus = 'all' | 'in-progress' | 'completed' | 'expired';
@@ -125,15 +127,15 @@ const MyTasks: React.FC = () => {
   const getStatusBadge = (status: string) => {
     switch(status) {
       case 'in-progress':
-        return <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 rounded-full">进行中</span>;
+        return <Badge variant="processing">进行中</Badge>;
       case 'completed':
-        return <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 rounded-full">已完成</span>;
+        return <Badge variant="completed">已完成</Badge>;
       case 'failed':
-        return <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 rounded-full">失败</span>;
+        return <Badge variant="failed">失败</Badge>;
       case 'expired':
-        return <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 rounded-full">已失效</span>;
+        return <Badge variant="pending">已失效</Badge>;
       default:
-        return <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 rounded-full">未知</span>;
+        return <Badge variant="secondary">未知</Badge>;
     }
   };
 
@@ -261,27 +263,32 @@ const MyTasks: React.FC = () => {
                     <td className="px-6 py-4 whitespace-nowrap">{getRewardStatus(task)}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <div className="flex space-x-2">
-                        <button 
-                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           onClick={() => handleViewDetail(task)}
                         >
                           查看详情
-                        </button>
+                        </Button>
                         {task.status === 'failed' && (
-                          <button 
-                            className="text-orange-500 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 transition-colors"
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-orange-500 hover:text-orange-700 dark:text-orange-400"
                             onClick={() => handleResubmit(task.id)}
                           >
                             重新提交
-                          </button>
+                          </Button>
                         )}
                         {task.status === 'completed' && (
-                          <button 
-                            className="text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 transition-colors"
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-green-500 hover:text-green-700 dark:text-green-400"
                             onClick={() => handleDownload(task.id)}
                           >
                             下载结果
-                          </button>
+                          </Button>
                         )}
                       </div>
                     </td>
@@ -318,12 +325,13 @@ const MyTasks: React.FC = () => {
                     {getStatusBadge(selectedTask.status)}
                   </div>
                 </div>
-                <button 
-                  className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={() => setIsTaskDetailOpen(false)}
                 >
                   <i className="fa-solid fa-xmark text-xl"></i>
-                </button>
+                </Button>
               </div>
             </div>
             
@@ -375,35 +383,35 @@ const MyTasks: React.FC = () => {
               </div>
               
               <div className="flex justify-end space-x-3">
-                <button 
-                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors"
+                <Button
+                  variant="secondary"
                   onClick={() => setIsTaskDetailOpen(false)}
                 >
                   关闭
-                </button>
-                
+                </Button>
+
                 {selectedTask.status === 'failed' && (
-                  <button 
-                    className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700 transition-colors"
+                  <Button
+                    className="bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700"
                     onClick={() => {
                       handleResubmit(selectedTask.id);
                       setIsTaskDetailOpen(false);
                     }}
                   >
                     重新提交
-                  </button>
+                  </Button>
                 )}
-                
+
                 {selectedTask.status === 'completed' && (
-                  <button 
-                    className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 transition-colors"
+                  <Button
+                    className="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700"
                     onClick={() => {
                       handleDownload(selectedTask.id);
                       setIsTaskDetailOpen(false);
                     }}
                   >
                     下载结果
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>
